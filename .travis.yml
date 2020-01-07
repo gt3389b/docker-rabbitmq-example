@@ -1,0 +1,8 @@
+language: minimal
+dist: trusty
+services:
+  - docker
+script:
+  - docker-compose up -d
+  - sleep 60
+  - exit

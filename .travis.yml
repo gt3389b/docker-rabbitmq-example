@@ -3,6 +3,4 @@ dist: trusty
 services:
   - docker
 script:
-  - docker-compose up -d
-  - sleep 60
-  - exit
+  - docker-compose up --force-recreate --remove-orphans --build --exit-code-from publisher

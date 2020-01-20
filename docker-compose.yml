@@ -5,13 +5,14 @@ version: '3'  # requires Docker Compose 1.13 or later
 
 # This section describes the various containers (services).
 services:
-  
+
   rabbitmq:
     # There is a prebuilt RabbitMQ image; see
     # https://hub.docker.com/_/rabbitmq/ for details.
     # This variant is built on Alpine Linux (it's smaller) and includes
     # the management UI.
-    image: 'rabbitmq:3.6-management-alpine'
+    container_name: rabbitmq
+    image: 'rabbitmq:3.8-management-alpine'
 
     # These ports are exposed on the host; 'hostport:containerport'.
     # You could connect to this server from outside with the *host's*
@@ -32,6 +33,7 @@ services:
       - network
 
   consumer:
+    depends_on: [rabbitmq]
     # If needed, Docker Compose will automatically run consumer/Dockerfile.
     build: consumer
 
@@ -41,7 +43,7 @@ services:
       # "rabbitmq" is the hostname.  Note that there is not a guarantee
       # that the server will start first!  Telling the pika client library
       # to try multiple times gets around this ordering issue.
-      AMQP_URL: 'amqp://rabbitmq?connection_attempts=5&retry_delay=5'
+      AMQP_URL: 'amqp://guest:guest@rabbitmq:5672/%2F?connection_attempts=5&retry_delay=5'
 
     # Again, run on the private network.  Needed to see the "rabbitmq"
     # magic Docker DNS name.
@@ -49,10 +51,11 @@ services:
       - network
 
   publisher:
+    depends_on: [rabbitmq]
     # Identical to the consumer.
     build: publisher
     environment:
-      AMQP_URL: 'amqp://rabbitmq?connection_attempts=5&retry_delay=5'
+      AMQP_URL: 'amqp://guest:guest@rabbitmq:5672/%2F?connection_attempts=5&retry_delay=5'
     networks:
       - network
 

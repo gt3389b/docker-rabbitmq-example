@@ -39,11 +39,7 @@ services:
 
     # Environment variables:
     environment:
-      # The location of the RabbitMQ server.  "amqp" is the protocol;
-      # "rabbitmq" is the hostname.  Note that there is not a guarantee
-      # that the server will start first!  Telling the pika client library
-      # to try multiple times gets around this ordering issue.
-      AMQP_URL: 'amqp://guest:guest@rabbitmq:5672/%2F?connection_attempts=5&retry_delay=5'
+      - AMQP_URL
 
     # Again, run on the private network.  Needed to see the "rabbitmq"
     # magic Docker DNS name.
@@ -55,7 +51,7 @@ services:
     # Identical to the consumer.
     build: publisher
     environment:
-      AMQP_URL: 'amqp://guest:guest@rabbitmq:5672/%2F?connection_attempts=5&retry_delay=5'
+      - AMQP_URL
     networks:
       - network
 

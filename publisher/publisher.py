@@ -12,11 +12,11 @@ channel = connection.channel()
 
 channel.queue_declare(queue='hello')
 
+# user_id='guest',
 channel.basic_publish(exchange='', routing_key='hello',
                       properties=pika.BasicProperties(
                             content_type='application/json',
                             message_id='42',
-                            user_id='13',
                             correlation_id='666'),
                       body='{"payload": "Hello World!"}')
 print(" [x] Sent 'Hello World!'")

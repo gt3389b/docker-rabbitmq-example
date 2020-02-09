@@ -2,7 +2,7 @@
 import os
 import pika
 import uuid
-
+import time
 
 class FibonacciRpcClient():
 
@@ -44,6 +44,7 @@ class FibonacciRpcClient():
 
 fibonacci_rpc = FibonacciRpcClient()
 
+time.sleep(5)
 print(" [x] Requesting fib(30)")
 response = fibonacci_rpc.call(30)
 print(" [.] Got %r" % response)

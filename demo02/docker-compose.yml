@@ -1,0 +1,38 @@
+version: '3'
+services:
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: 'rabbitmq:3.8-management-alpine'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - network
+
+  consumer:
+    depends_on: [rabbitmq]
+    build: .
+    environment:
+      - AMQP_URL
+    networks:
+      - network
+    volumes:
+      - .:/opt
+    working_dir: /opt
+    command: python3 rpc_client.py
+
+  publisher:
+    depends_on: [rabbitmq]
+    build: .
+    environment:
+      - AMQP_URL
+    networks:
+      - network
+    volumes:
+      - .:/opt
+    working_dir: /opt
+    command: python3 rpc_server.py
+
+networks:
+  network: {}

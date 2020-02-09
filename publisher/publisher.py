@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import pika
+import time
 
 amqp_url = os.environ['AMQP_URL']
 print(f'URL: {amqp_url}')
@@ -20,3 +21,4 @@ channel.basic_publish(exchange='', routing_key='hello',
                       body='{"payload": "Hello World!"}')
 print(" [x] Sent 'Hello World!'")
 connection.close()
+time.sleep(10)

@@ -6,6 +6,7 @@ up:
 		--remove-orphans \
 		--build \
 		--abort-on-container-exit \
+		--scale consumer=4 \
 		--exit-code-from publisher
 
 stop:

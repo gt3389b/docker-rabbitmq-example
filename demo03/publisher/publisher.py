@@ -22,8 +22,8 @@ async def main(loop):
         print("Got master")
 
         # Creates tasks by proxy object
-        #for task_id in range(1000):
-        #    await master.proxy.my_task_name(task_id=task_id)
+        for task_id in range(10):
+            await master.proxy.my_task_name(task_id=task_id)
 
         # Or using create_task method
         for task_id in range(10):
@@ -31,8 +31,9 @@ async def main(loop):
             await master.create_task(
                 "my_task_name", kwargs=dict(task_id=task_id)
             )
-        time.sleep(10)
 
+        while(1):
+            time.sleep(1)
 
 if __name__ == "__main__":
     time.sleep(15)
